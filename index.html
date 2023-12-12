@@ -1,0 +1,44 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External XML Example</title>
+</head>
+
+<body>
+    <h1>Persons</h1>
+    <ul id="personList"></ul>
+
+    <script>
+        // Load XML data from file
+        fetch('data.xml') // Assuming data.xml is in the same directory as index.html
+            .then(response => response.text())
+            .then(data => {
+                // Parse XML
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data, 'application/xml');
+
+                // Extract information
+                const persons = xmlDoc.querySelectorAll('person');
+
+                // Display information in HTML
+                const personList = document.getElementById('personList');
+                persons.forEach(person => {
+                    const name = person.querySelector('name').textContent;
+                    const age = person.querySelector('age').textContent;
+                    const city = person.querySelector('city').textContent;
+
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${name}, ${age}, ${city}`;
+                    personList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error loading XML:', error));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External JSON Example</title>
+</head>
+
+<body>
+    <h1>Persons</h1>
+    <ul id="personList"></ul>
+
+    <script>
+// Load JSON data from file
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Extract information
+                const persons = data.persons;
+
+                // Display information in HTML
+                const personList = document.getElementById('personList');
+                persons.forEach(person => {
+                    const { name, age, city } = person;
+
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${name}, ${age}, ${city}`;
+                    personList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error loading JSON:', error));
+    </script>
+</body>
+
+</html>
